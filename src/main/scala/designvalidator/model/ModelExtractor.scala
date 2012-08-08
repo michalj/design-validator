@@ -9,21 +9,25 @@ class ModelExtractor {
   def readJar(file: File): Seq[ClassModel] = {
     val zip = new ZipFile(file)
     zip.entries().toList.map(e => { println("r:" + e.getName()); e }).filter(_.getName().endsWith(".class")).map(entry => {
-      println("class: " + entry.getName())
       val reader = new ClassReader(zip.getInputStream(entry))
-      reader.accept(new ClassModelBuilder(), 0)
+      val builder = new ClassModelBuilder()
+      reader.accept(builder, 0)
+      builder()
     })
-    null
   }
 
   private class ClassModelBuilder extends ClassVisitor {
+    var methods = Seq[MethodModel]()
+    var name = ""
     def visit(
       version: Int,
       access: Int,
       name: String,
       signature: String,
       superName: String,
-      interfaces: Array[String]) {}
+      interfaces: Array[String]) {
+      this.name = name
+    }
     def visitSource(source: String, debug: String) {}
     def visitOuterClass(owner: String, name: String, desc: String) {}
     def visitAnnotation(desc: String, visible: Boolean): AnnotationVisitor = null
@@ -45,10 +49,11 @@ class ModelExtractor {
       desc: String,
       signature: String,
       exceptions: Array[String]): MethodVisitor = {
-      println("method: " + name)
+      methods = methods :+ MethodModel(name, Seq(signature))
       null
     }
     def visitEnd() {}
+    def apply() = ClassModel(name, Seq(), methods)
   }
 
 }

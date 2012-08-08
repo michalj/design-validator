@@ -21,6 +21,7 @@ package sample {
   object Test extends App {
     val fc = new javax.swing.JFileChooser()
     fc.showOpenDialog(null)
-    new ModelExtractor().readJar(fc.getSelectedFile())
+    val model = new ModelExtractor().readJar(fc.getSelectedFile())
+    println("model: " + model)
   }
 }
