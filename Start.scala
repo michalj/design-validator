@@ -94,7 +94,9 @@ package sample {
   }
   
   object Test extends Application {
-    new ModelExtractor().readJar(new java.io.File("""sample.jar"""))
+    val fc = new javax.swing.JFileChooser()
+    fc.showOpenDialog(null)
+    new ModelExtractor().readJar(fc.getSelectedFile())
   }
 }
 
