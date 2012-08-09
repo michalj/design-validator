@@ -14,6 +14,6 @@ case class MethodModel(name: String, args: Seq[String],
 case class FieldModel(name: String)
 
 case class FieldDependency(static: Boolean, owner: String, name: String,
-    read: Boolean)
-    
+  read: Boolean)
+
 case class MethodDependency(static: Boolean, owner: String, name: String)
