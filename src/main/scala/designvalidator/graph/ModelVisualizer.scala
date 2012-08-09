@@ -5,6 +5,7 @@ import java.io.Writer
 
 object ModelVisualizer {
   def visualize(model: Seq[ClassModel], graphWriter: IGraphWriter) {
+    graphWriter.begin
     for (classModel <- model) {
       graphWriter.addVerticle(classModel.name, classModel.name)
       for (method <- classModel.methods) {
@@ -18,5 +19,6 @@ object ModelVisualizer {
         }
       }
     }
+    graphWriter.end
   }
 }
