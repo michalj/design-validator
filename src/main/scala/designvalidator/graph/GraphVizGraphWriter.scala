@@ -11,7 +11,7 @@ class GraphVizGraphWriter(output: Writer) extends IGraphWriter {
   
   def addVerticle(id: String, label: String, color: String = "black",
       bgcolor: String = "white") {
-	  out.write(id + "[label=\"" + label + "\", color=" + color + "];")
+	  out.write(id + "[label=\"" + label + "\", fontcolor=" + color + ",color=" + bgcolor + "];")
   }
   def addEdge(fromId: String, toId: String, label: String) {
     out.write(fromId + "->" + toId + ";")
