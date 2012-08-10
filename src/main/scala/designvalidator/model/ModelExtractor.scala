@@ -20,6 +20,7 @@ class ModelExtractor {
     var methods = Seq[MethodModel]()
     var fields = Seq[FieldModel]()
     var name = ""
+    var `package` = ""
     def visit(
       version: Int,
       access: Int,
@@ -28,6 +29,8 @@ class ModelExtractor {
       superName: String,
       interfaces: Array[String]) {
       this.name = name
+      this.`package` = name.substring(0, name.lastIndexOf("/"))
+        .replace("/", ".")
     }
     def visitSource(source: String, debug: String) {}
     def visitOuterClass(owner: String, name: String, desc: String) {}
@@ -56,7 +59,7 @@ class ModelExtractor {
       new MethodModelBuilder(name, exceptions)
     }
     def visitEnd() {}
-    def apply() = ClassModel(name, methods, fields)
+    def apply() = ClassModel(name, `package`, methods, fields)
 
     private class MethodModelBuilder(name: String, exceptions: Array[String])
       extends MethodVisitor {
@@ -89,11 +92,11 @@ class ModelExtractor {
         val static = opcode == Opcodes.GETSTATIC || opcode == Opcodes.PUTSTATIC
         val read = opcode == Opcodes.GETSTATIC || opcode == Opcodes.GETFIELD
         fieldDependencies = fieldDependencies :+ FieldDependency(static, owner,
-            name, read)
+          name, read)
       }
       def visitMethodInsn(opcode: Int, owner: String, name: String, desc: String) {
         methodDependencies = methodDependencies :+ MethodDependency(false,
-            owner, name)
+          owner, name)
       }
       def visitJumpInsn(opcode: Int, label: Label) {}
       def visitLabel(label: Label) {}
@@ -114,7 +117,7 @@ class ModelExtractor {
       def visitMaxs(maxStack: Int, maxLocals: Int) {}
       def visitEnd() {
         methods = methods :+ MethodModel(name, Seq(), exceptions, null,
-            fieldDependencies, methodDependencies, creates)
+          fieldDependencies, methodDependencies, creates)
       }
     }
 

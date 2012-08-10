@@ -4,21 +4,11 @@ import designvalidator.model._
 import java.io.Writer
 
 object ModelVisualizer {
-  def visualize(model: Seq[ClassModel], graphWriter: IGraphWriter) {
-    graphWriter.begin
-    for (classModel <- model) {
-      graphWriter.addVerticle(classModel.name, classModel.name)
-      for (method <- classModel.methods) {
-        val methodId = classModel.name + ":" + method.name
-        graphWriter.addVerticle(methodId,
-          method.name, bgcolor = "grey")
-        graphWriter.addEdge(classModel.name, methodId, "hasMethod")
-        for (dependency <- method.methodDependencies) {
-          graphWriter.addEdge(methodId,
-            dependency.owner + ":" + dependency.name, "calls")
-        }
-      }
-    }
-    graphWriter.end
-  }
+  def visualize(model: Seq[ClassModel]) = Graph("Dependencies", Seq(),
+      model.map(c => Verticle(c.name, c.name, bgcolor = "gray")).toSet,
+      model.flatMap(c => {
+        c.methods.flatMap(m => {
+          m.methodDependencies.map(d => Edge(c.name, d.owner, "<<uses>>"))
+        })
+      }).toSet)
 }
