@@ -2,3 +2,5 @@
 .classpath
 .cache
 target
+graph.dot
+graph.dot.*
