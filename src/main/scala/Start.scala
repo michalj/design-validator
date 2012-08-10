@@ -22,12 +22,9 @@ import designvalidator.graph.GraphVizGraphWriter
   }
 
   object Test extends App {
-    val fc = new javax.swing.JFileChooser()
-    fc.showOpenDialog(null)
-    val file = fc.getSelectedFile()
-    //val file = new java.io.File("/Users/yuko/.ivy2/cache/joda-time/joda-time/jars/joda-time-1.6.jar")
+    val file = new java.io.File("src/main/resources/commons-logging-1.0.4.jar")
     val model = new ModelExtractor().readJar(file)
     val out = new OutputStreamWriter(new FileOutputStream("graph.dot"))
-    ModelVisualizer.visualize(model, new GraphVizGraphWriter(out))
+    GraphVizGraphWriter.write(ModelVisualizer.visualize(model), out)
   }
 }

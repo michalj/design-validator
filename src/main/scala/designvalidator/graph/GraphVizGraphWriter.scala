@@ -2,24 +2,19 @@ package designvalidator.graph
 
 import java.io.{Writer, BufferedWriter}
 
-class GraphVizGraphWriter(output: Writer) extends IGraphWriter {
-  val out = new BufferedWriter(output)
-  
-  def begin {
+object GraphVizGraphWriter {
+  def write(graph: Graph, output: Writer) {
+    val out = new BufferedWriter(output)
     out.write("digraph {\n")
-  }
-  
-  def addVerticle(id: String, label: String, color: String = "black",
-      bgcolor: String = "white") {
-	  out.write("\t\"" + id + "\" [label=\"" + label + "\", fontcolor=" + color + ",color=" + bgcolor + "];\n")
-  }
-  def addEdge(fromId: String, toId: String, label: String) {
-    out.write("\t\t\"" + fromId + "\"->\"" + toId + "\";\n")
-  }
-  
-  def end {
+    for (verticle <- graph.verticles) {
+	  out.write("\t\"" + verticle.id + "\" [label=\"" + verticle.label +
+	      "\", fontcolor=" + verticle.color + ",bgcolor=" + verticle.bgcolor +
+	      "];\n")      
+    }
+    for (edge <- graph.edges) {
+      out.write("\t\t\"" + edge.fromId + "\" -> \"" + edge.toId + "\";\n")
+    }
     out.write("}")
-    out.flush
-    out.close
+    out.flush()
   }
 }
