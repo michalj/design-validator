@@ -25,6 +25,6 @@ import designvalidator.graph.GraphVizGraphWriter
     val file = new java.io.File("src/main/resources/commons-logging-1.0.4.jar")
     val model = new ModelExtractor().readJar(file)
     val out = new OutputStreamWriter(new FileOutputStream("graph.dot"))
-    GraphVizGraphWriter.write(ModelVisualizer.visualize(model), out)
+    GraphVizGraphWriter.write(ModelVisualizer(model), out)
   }
 }
