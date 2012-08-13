@@ -3,7 +3,9 @@ package designvalidator.model
 case class ClassModel(name: String,
   `package`: String,
   methods: Seq[MethodModel],
-  fields: Seq[FieldModel])
+  fields: Seq[FieldModel],
+  superName: String,
+  interfaces: Seq[String])
 
 case class MethodModel(name: String, args: Seq[String],
   exceptions: Seq[String],

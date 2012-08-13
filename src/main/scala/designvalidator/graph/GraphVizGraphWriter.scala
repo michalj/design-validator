@@ -7,7 +7,8 @@ object GraphVizGraphWriter {
     val out = new BufferedWriter(output)
     out.write("digraph {\n")
     for (cluster <- graph.clusters) {
-      out.write("\tsubgraph cluster" + cluster.id + " {\n")
+      out.write("\tsubgraph \"cluster_" + cluster.id + "\" {\n")
+      out.write("label = \"" + cluster.label + "\";\n")
       writeVerticles(out, cluster.verticles)
       out.write("\t}\n")
     }

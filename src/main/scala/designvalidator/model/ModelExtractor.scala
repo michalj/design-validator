@@ -20,6 +20,8 @@ class ModelExtractor {
     var methods = Seq[MethodModel]()
     var fields = Seq[FieldModel]()
     var name = ""
+    var superName = ""
+    var interfaces: Seq[String] = _
     var `package` = ""
     def visit(
       version: Int,
@@ -29,6 +31,8 @@ class ModelExtractor {
       superName: String,
       interfaces: Array[String]) {
       this.name = name
+      this.superName = superName
+      this.interfaces = interfaces.toList
       this.`package` = name.substring(0, name.lastIndexOf("/"))
         .replace("/", ".")
     }
@@ -59,7 +63,7 @@ class ModelExtractor {
       new MethodModelBuilder(name, exceptions)
     }
     def visitEnd() {}
-    def apply() = ClassModel(name, `package`, methods, fields)
+    def apply() = ClassModel(name, `package`, methods, fields, superName, interfaces)
 
     private class MethodModelBuilder(name: String, exceptions: Array[String])
       extends MethodVisitor {
