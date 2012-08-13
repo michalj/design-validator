@@ -3,7 +3,7 @@ package designvalidator.graph
 import designvalidator.model._
 import java.io.Writer
 
-object ModelVisualizer extends IVisualizer {
+object ClassDependenciesVisualizer extends IVisualizer {
   def apply(model: Seq[ClassModel]) = Graph("Dependencies", Seq(),
       model.map(c => Verticle(c.name, c.name, bgcolor = "gray")).toSet,
       model.flatMap(c => {
