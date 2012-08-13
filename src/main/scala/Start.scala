@@ -23,7 +23,9 @@ package sample {
   object Test extends App {
     val file = new java.io.File("src/main/resources/commons-logging-1.0.4.jar")
     val model = new ModelExtractor().readJar(file)
-    val out = new OutputStreamWriter(new FileOutputStream("graph.dot"))
+    val out = new OutputStreamWriter(new FileOutputStream("target/graph.dot"))
     GraphVizGraphWriter.write(ClassDependenciesVisualizer(model), out)
+    val out2 = new OutputStreamWriter(new FileOutputStream("target/graph2.dot"))
+    GraphVizGraphWriter.write(new MethodDependenciesVisualizer(c => c.name == "org/apache/commons/logging/impl/LogFactoryImpl")(model), out2)
   }
 }
