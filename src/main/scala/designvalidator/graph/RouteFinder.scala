@@ -8,7 +8,13 @@ case class FindRouteProblem(sourcePoints: Seq[Position],
     blocked: Array[Array[Int]])
 
 object RouteFinder {
-  def apply(problem: FindRouteProblem, buffer: Option[Array[Array[Int]]] = None): Seq[Position] = {
+  val free = 0
+  val blockedHorizontal = 1
+  val blockedVertical = 2
+  val blocked = 3
+  
+  def apply(problem: FindRouteProblem, buffer: Option[Array[Array[Int]]] = None,
+      crossPenalty: Int = 5): Seq[Position] = {
     val FindRouteProblem(sourcePoints, endPoints, blocked) = problem
     val dist = buffer match {
       case Some(b) => b

@@ -39,7 +39,11 @@ class SvgGraphWriter(grid: Int = 30, crossCost: Int = 10,
     }.reduce((p1, p2) => Position(max(p1.x, p2.x), max(p1.y, p2.y)))
     val blocked = ofDim[Int](size.x + 1, size.y + 1)
     params.clusters(nodeWidth).foreach({ case (x1, y1, x2, y2) =>
-      for (i <- x1 + 1 to x2 - 1; j <- y1 + 1 to y2 - 1) blocked(i)(j) = 1
+      for (i <- x1 + 1 to x2 - 1; j <- y1 to y2) blocked(i)(j) = RouteFinder.blocked
+      for (j <- y1 + 1 to y2 - 1) {
+        blocked(x1)(j) = RouteFinder.blockedVertical
+        blocked(x2)(j) = RouteFinder.blockedVertical
+      }
     })
     params.edgeOrder.map (edge => {
       val endPoints = params.verticlePositions(edge.toId, nodeWidth)

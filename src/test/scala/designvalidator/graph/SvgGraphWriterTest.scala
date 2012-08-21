@@ -30,8 +30,8 @@ class SvgGraphWriterTest extends FeatureSpec with ShouldMatchers {
       val FindRouteProblem(sourcePoints, endPoints, blocked) = problems(0)
       sourcePoints should be (Seq(Position(13, 4), Position(23, 4)))
       endPoints should be (Seq(Position(1, 4), Position(11, 4)))
-      sourcePoints foreach { s => blocked(s.x)(s.y) should be (0) }
-      endPoints foreach { s => blocked(s.x)(s.y) should be (0) }
+      sourcePoints foreach { s => blocked(s.x)(s.y) should be (RouteFinder.blockedVertical) }
+      endPoints foreach { s => blocked(s.x)(s.y) should be (RouteFinder.blockedVertical) }
     }
 
     def sampleParams = Parameters(
