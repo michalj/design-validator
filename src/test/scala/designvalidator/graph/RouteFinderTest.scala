@@ -18,31 +18,41 @@ class RouteFinderTest extends FeatureSpec with ShouldMatchers {
       // when
       val path = RouteFinder(FindRouteProblem(startingPoints, endPoints, blocked))
       // then
-      path should be(Seq(
+      path should be((Seq(
         Position(2, 1),
         Position(2, 0),
         Position(1, 0),
         Position(0, 0),
-        Position(0, 1)))
+        Position(0, 1)), 4))
     }
 
     scenario("should decide to cross lines if not blocked in given direction") {
       // given
       val blocked: Array[Array[Int]] = Seq(
         ".|.",
-        ".|.")
+        ".|.",
+        ".|.",
+        ".|.",
+        ".|.",
+        "...")
       val startingPoints = Seq(Position(0, 0))
       val endPoints = Seq(Position(2, 0))
       // when
-      val path = RouteFinder(FindRouteProblem(startingPoints, endPoints, blocked))
+      val path = RouteFinder(FindRouteProblem(startingPoints, endPoints, blocked),
+          crossPenalty = 5)
       // then
-      path should be(Seq(
+      path should be((Seq(
         Position(0, 0),
         Position(1, 0),
-        Position(2, 0)))
+        Position(2, 0)), 6))
     }
   }
 
+  def debugTrace(label: String, a: Array[Array[Int]]) {
+    println(label)
+    a.foreach(l => println(l.toList))
+  }
+  
   implicit def stringarray2intarray(in: Seq[String]): Array[Array[Int]] = {
     val a = ofDim[Int](in(0).length(), in.length)
     for (i <- 0 to a.length - 1; j <- 0 to a(0).length - 1) a(i)(j) = in(j)(i) match {

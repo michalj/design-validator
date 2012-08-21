@@ -10,42 +10,42 @@ class SvgGraphWriter(grid: Int = 30, crossCost: Int = 10,
   nodeWidth: Int = 10) {
 
   def write(graph: Graph, out: BufferedWriter) {
-    val params = randomParams(graph)
+    val params = randomParams(graph, nodeWidth)
     val routes = findRoutes(params)
-    XML.write(out, SvgTemplate(grid, nodeWidth, params, routes), "UTF-8",
+    XML.write(out, SvgTemplate(grid, nodeWidth, params, routes._1), "UTF-8",
       false, null)
     out.close()
   }
 
-  def randomParams(graph: Graph) = Parameters(
-    Map(
-      "Util" -> Position(1, 1),
-      "Service" -> Position(13, 1)),
-    Map(
-      "Service" -> Seq(
-        Verticle("Service.do", "do"),
-        Verticle("Service.serve", "serve")),
-      "Util" -> Seq(
-        Verticle("Util.help", "help"))),
-    Seq(Edge("Service.do", "Util.help", "calls"),
-        Edge("Service.serve", "Service.do", "calls")
-    ))
-  def findRoutes(params: Parameters): Seq[Seq[Position]] =
-    toFindRouteProblems(params, nodeWidth).map(p => RouteFinder(p))
-  
+  def randomParams(graph: Graph, nodeWidth: Int) = Parameters(
+    graph.clusters.zipWithIndex.map {
+      case (cluster, index) => {
+        (cluster.id -> Position(10 + index * (nodeWidth + 10), 10))
+      }
+    }.toMap,
+    graph.clusters
+      .map(cluster => (cluster.id -> cluster.verticles.toSeq.sortBy(_.label)))
+      .toMap,
+    graph.edges.toSeq.sortBy(e => e.fromId + ":" + e.toId))
+  def findRoutes(params: Parameters): (Seq[Seq[Position]], Int) = {
+    val routes = toFindRouteProblems(params, nodeWidth).map(p => RouteFinder(p))
+    (routes.map(_._1), routes.map(_._2).sum)
+  }
+
   def toFindRouteProblems(params: Parameters, nodeWidth: Int) = {
     val size = params.clusters(nodeWidth).map {
       case (x1, y1, x2, y2) => Position(x2, y2)
     }.reduce((p1, p2) => Position(max(p1.x, p2.x), max(p1.y, p2.y)))
     val blocked = ofDim[Int](size.x + 1, size.y + 1)
-    params.clusters(nodeWidth).foreach({ case (x1, y1, x2, y2) =>
-      for (i <- x1 + 1 to x2 - 1; j <- y1 to y2) blocked(i)(j) = RouteFinder.blocked
-      for (j <- y1 + 1 to y2 - 1) {
-        blocked(x1)(j) = RouteFinder.blockedVertical
-        blocked(x2)(j) = RouteFinder.blockedVertical
-      }
+    params.clusters(nodeWidth).foreach({
+      case (x1, y1, x2, y2) =>
+        for (i <- x1 + 1 to x2 - 1; j <- y1 to y2) blocked(i)(j) = RouteFinder.blocked
+        for (j <- y1 + 1 to y2 - 1) {
+          blocked(x1)(j) = RouteFinder.blockedVertical
+          blocked(x2)(j) = RouteFinder.blockedVertical
+        }
     })
-    params.edgeOrder.map (edge => {
+    params.edgeOrder.map(edge => {
       val endPoints = params.verticlePositions(edge.toId, nodeWidth)
       val sourcePoints = params.verticlePositions(edge.fromId, nodeWidth)
       FindRouteProblem(sourcePoints, endPoints, blocked)

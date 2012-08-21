@@ -4,69 +4,88 @@ import math._
 import Array._
 
 case class FindRouteProblem(sourcePoints: Seq[Position],
-    endPoints: Seq[Position],
-    blocked: Array[Array[Int]])
+  endPoints: Seq[Position],
+  blocked: Array[Array[Int]])
 
 object RouteFinder {
   val free = 0
   val blockedHorizontal = 1
   val blockedVertical = 2
   val blocked = 3
-  
-  def apply(problem: FindRouteProblem, buffer: Option[Array[Array[Int]]] = None,
-      crossPenalty: Int = 5): Seq[Position] = {
+
+  def apply(problem: FindRouteProblem,
+    distBuffer: Option[Array[Array[Int]]] = None,
+    fromBuffer: Option[Array[Array[Position]]] = None,
+    crossPenalty: Int = 5,
+    trace: (String, Array[Array[Int]]) => Unit = (t, a) => {}): (Seq[Position], Int) = {
     val FindRouteProblem(sourcePoints, endPoints, blocked) = problem
-    val dist = buffer match {
+    val dist = distBuffer match {
       case Some(b) => b
       case None => ofDim[Int](blocked.length, blocked(0).length)
+    }
+    val from = fromBuffer match {
+      case Some(b) => b
+      case None => ofDim[Position](blocked.length, blocked(0).length)
     }
     rangeUpdate(dist, (0, 0, dist.length - 1, dist(0).length - 1),
       Int.MaxValue)
     implicit val positionOrdering = new PositionOrdering(dist, endPoints)
     val queue = new scala.collection.mutable.PriorityQueue[Position]
-    def enqueue(pos: Position, d: Int) {
+    def enqueue(pos: Position, d: Int, jumpFrom: Position) {
       dist(pos.x)(pos.y) = d
+      from(pos.x)(pos.y) = jumpFrom
       queue += pos
     }
     for (src <- sourcePoints) {
-      enqueue(src, 0)
+      enqueue(src, 0, src)
     }
     def visit(current: Position) {
-      val newDistance = dist(current.x)(current.y) + 1
+      def moveHorizontal(x: Int, y: Int) = blocked(x)(y) match {
+        case b if (b == blockedVertical) => crossPenalty
+        case b if (b == free) => 1
+        case _ => Int.MaxValue
+      }
+      def moveVertical(x: Int, y: Int) = blocked(x)(y) match {
+        case b if (b == blockedHorizontal) => crossPenalty
+        case b if (b == free) => 1
+        case _ => Int.MaxValue
+      }
+      val currentDistance = dist(current.x)(current.y)
       val candidates = current match {
         case Position(x, y) => Seq(
-          Position(x + 1, y),
-          Position(x, y + 1),
-          Position(x - 1, y),
-          Position(x, y - 1))
+          (Position(x + 1, y), moveHorizontal _),
+          (Position(x, y + 1), moveVertical _),
+          (Position(x - 1, y), moveHorizontal _),
+          (Position(x, y - 1), moveVertical _))
       }
       val newPositions = candidates.filter {
-        case Position(x, y) => x >= 0 && y >= 0 &&
+        case (Position(x, y), move) => x >= 0 && y >= 0 &&
           x < dist.length && y < dist(0).length &&
-          dist(x)(y) > newDistance &&
-          blocked(x)(y) == 0 &&
-          endPoints.map(p => dist(p.x)(p.y)).min > newDistance
+          move(x, y) < Int.MaxValue &&
+          move(current.x, current.y) < Int.MaxValue &&
+          dist(x)(y) > currentDistance + move(x, y) + move(current.x, current.y) &&
+          endPoints.map(p => dist(p.x)(p.y)).min > currentDistance + move(x, y)
       }
-      newPositions.foreach(p => enqueue(p, newDistance))
+      newPositions.foreach {
+        case (p, move) => {
+          enqueue(p, currentDistance + move(p.x, p.y), current)
+        }
+      }
     }
+    trace("Initially", dist)
     while (queue.headOption.isDefined) {
-      visit(queue.dequeue)
+      val current = queue.dequeue
+      visit(current)
+      trace("After visiting " + current, dist)
     }
     var current = endPoints.minBy(p => dist(p.x)(p.y))
+    val cost = dist(current.x)(current.y)
     var route = Seq(current)
     while (dist(current.x)(current.y) > 0) {
-      current = Seq(
-        Position(current.x + 1, current.y),
-        Position(current.x, current.y + 1),
-        Position(current.x - 1, current.y),
-        Position(current.x, current.y - 1))
-        .filter(p => p.x >= 0 && p.y >= 0 &&
-          p.x < dist.length && p.y < dist(0).length &&
-          dist(p.x)(p.y) == dist(current.x)(current.y) - 1)
-        .head
+      current = from(current.x)(current.y)
       route = Seq(current) ++ route
     }
-    route
+    (route, cost)
   }
 
   def rangeUpdate[T](a: Array[Array[T]], range: (Int, Int, Int, Int), value: T) {

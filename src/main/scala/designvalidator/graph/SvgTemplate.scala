@@ -4,7 +4,10 @@ object SvgTemplate {
   private implicit def int2string(i: Int) = i.toString
 
   def apply(grid: Int, nodeWidth:Int, params: Parameters, routes: Seq[Seq[Position]]) =
-    <svg width={ 25 * grid } height={ 10 * grid } xmlns="http://www.w3.org/2000/svg">
+    <svg
+		width={ 90 * grid }
+  		height={ 90 * grid }
+  		xmlns="http://www.w3.org/2000/svg">
       <defs>
         <style type="text/css">
           rect {{

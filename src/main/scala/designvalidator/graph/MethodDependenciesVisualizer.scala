@@ -7,7 +7,7 @@ class MethodDependenciesVisualizer(filter: ClassModel => Boolean) extends IVisua
     val base = model.filter(filter)
     val classes = base.map(c => c.name).toSet
     Graph("Method dependencies",
-      base.map(c => Cluster(c.name, c.name,
+      base.map(c => Cluster("cluster_" + c.name, c.name,
           c.methods.map(m => Verticle(c.name + "_" + m.name, m.name)).toSet)
       ),
       Set(),
