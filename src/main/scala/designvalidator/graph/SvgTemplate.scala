@@ -5,8 +5,8 @@ object SvgTemplate {
 
   def apply(grid: Int, nodeWidth:Int, params: Parameters, routes: Seq[Seq[Position]]) =
     <svg
-		width={ 90 * grid }
-  		height={ 90 * grid }
+		width={ (params.clusterPositions.map(_._2.x).max + 90) * grid }
+  		height={ (params.clusterPositions.map(_._2.y).max + 90) * grid }
   		xmlns="http://www.w3.org/2000/svg">
       <defs>
         <style type="text/css">

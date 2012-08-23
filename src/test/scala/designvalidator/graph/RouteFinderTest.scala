@@ -15,8 +15,11 @@ class RouteFinderTest extends FeatureSpec with ShouldMatchers {
         "...")
       val startingPoints = Seq(Position(2, 1))
       val endPoints = Seq(Position(0, 1))
+      val linksTo = ofDim[Position](3, 4)
+      val linksFrom = ofDim[Position](3, 4)
       // when
-      val path = RouteFinder(FindRouteProblem(startingPoints, endPoints, blocked))
+      val path = RouteFinder(FindRouteProblem(startingPoints, endPoints, blocked,
+          linksTo, linksFrom))
       // then
       path should be((Seq(
         Position(2, 1),
@@ -24,6 +27,10 @@ class RouteFinderTest extends FeatureSpec with ShouldMatchers {
         Position(1, 0),
         Position(0, 0),
         Position(0, 1)), 4))
+      linksTo(2)(1) should be (endPoints.head)
+      linksTo(0)(0) should be (endPoints.head)
+      linksFrom(0)(1) should be (startingPoints.head)
+      linksFrom(1)(0) should be (startingPoints.head)
     }
 
     scenario("should decide to cross lines if not blocked in given direction") {
@@ -37,8 +44,11 @@ class RouteFinderTest extends FeatureSpec with ShouldMatchers {
         "...")
       val startingPoints = Seq(Position(0, 0))
       val endPoints = Seq(Position(2, 0))
+      val linksTo = ofDim[Position](3, 4)
+      val linksFrom = ofDim[Position](3, 4)
       // when
-      val path = RouteFinder(FindRouteProblem(startingPoints, endPoints, blocked),
+      val path = RouteFinder(FindRouteProblem(startingPoints, endPoints, blocked,
+          linksTo, linksFrom),
           crossPenalty = 5)
       // then
       path should be((Seq(
@@ -46,6 +56,14 @@ class RouteFinderTest extends FeatureSpec with ShouldMatchers {
         Position(1, 0),
         Position(2, 0)), 6))
     }
+  }
+  
+  scenario("should join routes going to the same destination") {
+    pending
+  }
+  
+  scenario("should branch routes starting at the same source") {
+    pending
   }
 
   def debugTrace(label: String, a: Array[Array[Int]]) {

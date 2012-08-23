@@ -5,7 +5,9 @@ import Array._
 
 case class FindRouteProblem(sourcePoints: Seq[Position],
   endPoints: Seq[Position],
-  blocked: Array[Array[Int]])
+  blocked: Array[Array[Int]],
+  linksTo: Array[Array[Position]],
+  linksFrom: Array[Array[Position]])
 
 object RouteFinder {
   val free = 0
@@ -18,7 +20,8 @@ object RouteFinder {
     fromBuffer: Option[Array[Array[Position]]] = None,
     crossPenalty: Int = 5,
     trace: (String, Array[Array[Int]]) => Unit = (t, a) => {}): (Seq[Position], Int) = {
-    val FindRouteProblem(sourcePoints, endPoints, blocked) = problem
+    val FindRouteProblem(sourcePoints, endPoints, blocked,
+        linksTo, linksFrom) = problem
     val dist = distBuffer match {
       case Some(b) => b
       case None => ofDim[Int](blocked.length, blocked(0).length)
@@ -78,13 +81,21 @@ object RouteFinder {
       visit(current)
       trace("After visiting " + current, dist)
     }
-    var current = endPoints.minBy(p => dist(p.x)(p.y))
+    var endPoint = endPoints.minBy(p => dist(p.x)(p.y))
+    var current = endPoint
     val cost = dist(current.x)(current.y)
     var route = Seq(current)
     while (dist(current.x)(current.y) > 0) {
-      current = from(current.x)(current.y)
+      val next = from(current.x)(current.y)
+      if (next == null) throw new RuntimeException("No route")
+      linksTo(next.x)(next.y) = endPoint
+      blocked(next.x)(next.y) += (
+        if (next.x == current.x) blockedVertical else blockedHorizontal)
+      current = next
       route = Seq(current) ++ route
     }
+    val startingPoint = route.head
+    for (point <- route) linksFrom(point.x)(point.y) = startingPoint
     (route, cost)
   }
 

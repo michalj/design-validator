@@ -48,7 +48,7 @@ class SvgGraphWriter(grid: Int = 30, crossCost: Int = 10,
     params.edgeOrder.map(edge => {
       val endPoints = params.verticlePositions(edge.toId, nodeWidth)
       val sourcePoints = params.verticlePositions(edge.fromId, nodeWidth)
-      FindRouteProblem(sourcePoints, endPoints, blocked)
+      FindRouteProblem(sourcePoints, endPoints, blocked, null, null)
     })
   }
 
