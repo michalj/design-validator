@@ -5,6 +5,7 @@ import java.util.zip.ZipFile
 import scala.collection.JavaConversions._
 import org.objectweb.asm._
 
+
 class ModelExtractor {
   def readJar(file: File): Seq[ClassModel] = {
     val zip = new ZipFile(file)

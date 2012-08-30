@@ -61,11 +61,14 @@ object RouteFinder {
           (Position(x - 1, y), moveHorizontal _),
           (Position(x, y - 1), moveVertical _))
       }
+      def linksToEnd(x: Int, y: Int) = endPoints.contains(linksTo(x)(y))
       val newPositions = candidates.filter {
         case (Position(x, y), move) => x >= 0 && y >= 0 &&
           x < dist.length && y < dist(0).length &&
-          move(x, y) < Int.MaxValue &&
-          move(current.x, current.y) < Int.MaxValue &&
+          (move(x, y) < Int.MaxValue || linksToEnd(x, y)) &&
+          (move(current.x, current.y) < Int.MaxValue || (
+              linksToEnd(current.x, current.y) && linksToEnd(x, y)
+          )) &&
           dist(x)(y) > currentDistance + move(x, y) + move(current.x, current.y) &&
           endPoints.map(p => dist(p.x)(p.y)).min > currentDistance + move(x, y)
       }
