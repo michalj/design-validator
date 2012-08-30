@@ -1,2 +1,3 @@
-script: "sbt test"
+#script: "sbt test"
+language: scala
 
