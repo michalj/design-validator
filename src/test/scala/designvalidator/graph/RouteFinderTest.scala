@@ -58,7 +58,7 @@ class RouteFinderTest extends FeatureSpec with ShouldMatchers {
     }
   }
 
-  scenario("should join routes going to the same destination") {
+  scenario("should join routes going to the same destination") { pendingUntilFixed {
     // given
     val blocked: Array[Array[Int]] = Seq(
       "---",
@@ -78,7 +78,7 @@ class RouteFinderTest extends FeatureSpec with ShouldMatchers {
         Position(2, 0),
         Position(1, 0),
         Position(0, 0)), 1))
-  }
+  } }
 
   scenario("should branch routes starting at the same source") {
     pending
