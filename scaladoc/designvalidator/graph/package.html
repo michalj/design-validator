@@ -1,0 +1,208 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html>
+        <head>
+          <title>designvalidator.graph</title>
+          <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+          
+      <link type="text/css" media="screen" rel="stylesheet" href="../../lib/template.css" />
+      <script type="text/javascript" src="../../lib/jquery.js"></script>
+      <script type="text/javascript" src="../../lib/jquery-ui.js"></script>
+      <script type="text/javascript" src="../../lib/template.js"></script>
+      <script type="text/javascript" src="../../lib/tools.tooltip.js"></script>
+    
+        </head>
+        <body onload="sh_highlightDocument('../lib/', '.min.js');" class="value">
+      <div id="definition">
+        <img src="../../lib/package_big.png" />
+        <p id="owner"><a name="designvalidator" class="extype" href="../package.html">designvalidator</a></p>
+        <h1>graph</h1>
+      </div>
+
+      <h4 class="signature" id="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">package</span>
+      </span>
+      <span class="symbol">
+        <span class="name">graph</span>
+      </span>
+      </h4>
+      
+      <div class="fullcommenttop" id="comment"></div>
+    
+
+      <div id="mbrsel">
+        <div id="textfilter"><span class="pre"></span><span class="input"><input accesskey="/" type="text" /></span><span class="post"></span></div>
+        
+        
+        <div id="visbl">
+            <span class="filtertype">Visibility</span>
+            <ol><li class="public in"><span>Public</span></li><li class="all out"><span>All</span></li></ol>
+          </div>
+      </div>
+
+      <div id="template">
+        <div id="allMembers">
+        
+
+        <div class="types members" id="types">
+              <h3>Type Members</h3>
+              <ol><li visbl="pub" name="designvalidator.graph.Cluster" data-isabs="false">
+      <a id="Cluster:Cluster"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="Cluster.html"><span class="name">Cluster</span></a><span class="params">(<span name="id">id: String</span>, <span name="label">label: String</span>, <span name="verticles">verticles: Set[Verticle]</span>)</span><span class="result"> extends Product with Serializable</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="designvalidator.graph.Edge" data-isabs="false">
+      <a id="Edge:Edge"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="Edge.html"><span class="name">Edge</span></a><span class="params">(<span name="fromId">fromId: String</span>, <span name="toId">toId: String</span>, <span name="label">label: String</span>)</span><span class="result"> extends Product with Serializable</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="designvalidator.graph.Graph" data-isabs="false">
+      <a id="Graph:Graph"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="Graph.html"><span class="name">Graph</span></a><span class="params">(<span name="name">name: String</span>, <span name="clusters">clusters: Seq[Cluster]</span>, <span name="verticles">verticles: Set[Verticle]</span>, <span name="edges">edges: Set[Edge]</span>)</span><span class="result"> extends Product with Serializable</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="designvalidator.graph.IVisualizer" data-isabs="true">
+      <a id="IVisualizer:IVisualizer"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">trait</span>
+      </span>
+      <span class="symbol">
+        <a href="IVisualizer.html"><span class="name">IVisualizer</span></a><span class="result"> extends (Seq[ClassModel]) ⇒ Graph</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="designvalidator.graph.MethodDependenciesVisualizer" data-isabs="false">
+      <a id="MethodDependenciesVisualizer:MethodDependenciesVisualizer"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="MethodDependenciesVisualizer.html"><span class="name">MethodDependenciesVisualizer</span></a><span class="result"> extends IVisualizer</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="designvalidator.graph.Parameters" data-isabs="false">
+      <a id="Parameters:Parameters"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="Parameters.html"><span class="name">Parameters</span></a><span class="params">(<span name="clusterPositions">clusterPositions: Map[String, Position]</span>, <span name="nodeOrder">nodeOrder: Map[String, Seq[Verticle]]</span>, <span name="edgeOrder">edgeOrder: Seq[Edge]</span>)</span><span class="result"> extends Product with Serializable</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="designvalidator.graph.Position" data-isabs="false">
+      <a id="Position:Position"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="Position.html"><span class="name">Position</span></a><span class="params">(<span name="x">x: Int</span>, <span name="y">y: Int</span>)</span><span class="result"> extends Product with Serializable</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="designvalidator.graph.SvgGraphWriter" data-isabs="false">
+      <a id="SvgGraphWriter:SvgGraphWriter"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">class</span>
+      </span>
+      <span class="symbol">
+        <a href="SvgGraphWriter.html"><span class="name">SvgGraphWriter</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="designvalidator.graph.Verticle" data-isabs="false">
+      <a id="Verticle:Verticle"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="Verticle.html"><span class="name">Verticle</span></a><span class="params">(<span name="id">id: String</span>, <span name="label">label: String</span>, <span name="color">color: String</span>, <span name="bgcolor">bgcolor: String</span>)</span><span class="result"> extends Product with Serializable</span>
+      </span>
+      </h4>
+      
+    </li></ol>
+            </div>
+
+        
+
+        <div class="values members" id="values">
+              <h3>Value Members</h3>
+              <ol><li visbl="pub" name="designvalidator.graph.ClassDependenciesVisualizer" data-isabs="false">
+      <a id="ClassDependenciesVisualizer:ClassDependenciesVisualizer"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="ClassDependenciesVisualizer$.html"><span class="name">ClassDependenciesVisualizer</span></a><span class="result"> extends IVisualizer</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="designvalidator.graph.GraphVizGraphWriter" data-isabs="false">
+      <a id="GraphVizGraphWriter:GraphVizGraphWriter"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="GraphVizGraphWriter$.html"><span class="name">GraphVizGraphWriter</span></a><span class="result"> extends AnyRef</span>
+      </span>
+      </h4>
+      
+    </li></ol>
+            </div>
+
+        
+        </div>
+
+        <div id="inheritedMembers">
+        
+        </div>
+
+      </div>
+
+      <div id="tooltip"></div>
+
+      <div id="footer">  </div>
+
+
+    </body>
+      </html>
