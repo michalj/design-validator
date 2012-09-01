@@ -8,7 +8,7 @@ trait PendingHelper {
     try {
       "dot --help" !
     } catch {
-      case e: RuntimeException => throw new TestPendingException() 
+      case e: Exception => throw new TestPendingException() 
     }
     f
   }
