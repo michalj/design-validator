@@ -1,5 +1,11 @@
 package designvalidator.model
 
+class ProjectModel(name: String)
+
+case class AppModel(name: String, libraries: Seq[LibraryModel]) extends ProjectModel(name)
+
+case class LibraryModel(name: String, classes: Seq[ClassModel]) extends ProjectModel(name)
+
 case class ClassModel(name: String,
   `package`: String,
   methods: Seq[MethodModel],

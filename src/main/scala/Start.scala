@@ -2,8 +2,10 @@
 package sample {
   import designvalidator._
   import designvalidator.model._
-  import designvalidator.graph._
-  import java.io.{ OutputStreamWriter, FileOutputStream }
+	import designvalidator.graph._
+	import java.io.{ OutputStreamWriter, FileOutputStream }
+	import java.io.BufferedWriter
+	import designvalidator.graph.svg.SvgGraphWriter
 
   object DAO extends Metaclass(nameMatches(".*DAO"))
 
@@ -21,11 +23,12 @@ package sample {
   }
 
   object Test extends App {
+    /*
     val file = new java.io.File("src/main/resources/commons-logging-1.0.4.jar")
     val model = new ModelExtractor().readJar(file)
-    val out = new OutputStreamWriter(new FileOutputStream("target/graph.dot"))
-    GraphVizGraphWriter.write(ClassDependenciesVisualizer(model), out)
-    val out2 = new OutputStreamWriter(new FileOutputStream("target/graph2.dot"))
-    GraphVizGraphWriter.write(new MethodDependenciesVisualizer(c => c.name == "org/apache/commons/logging/impl/LogFactoryImpl")(model), out2)
+    val out = new OutputStreamWriter(new FileOutputStream("target/commons-logging-graph.svg"))
+    val graph = new MethodDependenciesVisualizer(model => true)(model)
+    new SvgGraphWriter().write(graph, new BufferedWriter(out))
+    */
   }
 }
