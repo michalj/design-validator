@@ -1,6 +1,7 @@
 package designvalidator.graph
 
 import designvalidator.model._
+import designvalidator.graph.svg.SvgTemplate
 
 class MethodDependenciesVisualizer(filter: ClassModel => Boolean) extends IVisualizer {
   def apply(model: Seq[ClassModel]): Graph = {

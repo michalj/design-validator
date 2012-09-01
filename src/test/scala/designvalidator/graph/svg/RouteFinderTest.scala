@@ -1,4 +1,4 @@
-package designvalidator.graph
+package designvalidator.graph.svg
 
 import org.scalatest.matchers.ShouldMatchers
 import org.scalatest.FeatureSpec
@@ -71,7 +71,7 @@ class RouteFinderTest extends FeatureSpec with ShouldMatchers {
     val endPoints = Seq(Position(0, 0))
     // when
     val path = RouteFinder(FindRouteProblem(startingPoints, endPoints, blocked,
-        linksTo, linksFrom), trace = debugTrace)
+        linksTo, linksFrom))
     // then
     path should be ((Seq(
         Position(2, 1),

@@ -1,15 +1,15 @@
-package designvalidator.graph
+package designvalidator.graph.svg
 
 import math._
 import Array._
 
-case class FindRouteProblem(sourcePoints: Seq[Position],
+private[svg] case class FindRouteProblem(sourcePoints: Seq[Position],
   endPoints: Seq[Position],
   blocked: Array[Array[Int]],
   linksTo: Array[Array[Position]],
   linksFrom: Array[Array[Position]])
 
-object RouteFinder {
+private[svg] object RouteFinder {
   val free = 0
   val blockedHorizontal = 1
   val blockedVertical = 2

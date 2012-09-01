@@ -1,20 +1,23 @@
-package designvalidator.graph
+package designvalidator.graph.svg
 
 import java.io.BufferedWriter
 import scala.xml.XML
-import scala.xml.dtd.DocType
 import Array._
 import math._
+import designvalidator.graph._
+import java.io.{ OutputStream, OutputStreamWriter }
 
 class SvgGraphWriter(grid: Int = 30, crossCost: Int = 10,
-  nodeWidth: Int = 10) {
+  nodeWidth: Int = 10) extends IGraphWriter {
+  
+  def mimeType = "image/svg+xml"
+  def label = "Classes and Methods Graph"
 
-  def write(graph: Graph, out: BufferedWriter) {
+  def write(graph: Graph, out: OutputStream) {
     val params = randomParams(graph, nodeWidth)
     val routes = findRoutes(params)
-    XML.write(out, SvgTemplate(grid, nodeWidth, params, routes._1), "UTF-8",
-      false, null)
-    out.close()
+    val xml = SvgTemplate(grid, nodeWidth, params, routes._1)
+    XML.write(new OutputStreamWriter(out, "UTF-8"), xml, "UTF-8", false, null)
   }
 
   def randomParams(graph: Graph, nodeWidth: Int) = Parameters(

@@ -1,10 +1,15 @@
-package designvalidator.graph
+package designvalidator.graph.graphviz
 
-import java.io.{ Writer, BufferedWriter }
+import designvalidator.graph._
+import java.io._
+import scala.sys.process._
 
-object GraphVizGraphWriter {
-  def write(graph: Graph, output: Writer) {
-    val out = new BufferedWriter(output)
+object GraphVizGraphWriter extends IGraphWriter {
+  def mimeType = "image/png"
+  def label = "GraphViz"
+  
+  def write(graph: Graph, output: OutputStream) {
+    val out = new StringWriter()
     out.write("digraph {\n")
     for (cluster <- graph.clusters) {
       out.write("\tsubgraph \"cluster_" + cluster.id + "\" {\n")
@@ -17,10 +22,14 @@ object GraphVizGraphWriter {
       out.write("\t\t\"" + edge.fromId + "\" -> \"" + edge.toId + "\";\n")
     }
     out.write("}")
-    out.flush()
+    out.close()
+    Seq("dot", "-Tpng") #< input(out.toString()) #> output !;
+    output.flush()
   }
 
-  def writeVerticles(out: BufferedWriter, verticles: Iterable[Verticle]) {
+  private def input(s: String) = new ByteArrayInputStream(s.getBytes("UTF-8"))
+  
+  private def writeVerticles(out: Writer, verticles: Iterable[Verticle]) {
     for (verticle <- verticles) {
       out.write("\t\"" + verticle.id + "\" [label=\"" + verticle.label +
         "\", fontcolor=" + verticle.color + ",bgcolor=" + verticle.bgcolor +

@@ -6,15 +6,16 @@ import scala.collection.JavaConversions._
 import org.objectweb.asm._
 
 
-class ModelExtractor {
-  def readJar(file: File): Seq[ClassModel] = {
+object ModelExtractor extends (File => ProjectModel) {
+  def apply(file: File) = {
     val zip = new ZipFile(file)
-    zip.entries().toList.filter(_.getName().endsWith(".class")).map(entry => {
+    val classModels = zip.entries().toList.filter(_.getName().endsWith(".class")).map(entry => {
       val reader = new ClassReader(zip.getInputStream(entry))
       val builder = new ClassModelBuilder()
       reader.accept(builder, 0)
       builder()
     })
+    LibraryModel(file.getName(), classModels)
   }
 
   private class ClassModelBuilder extends ClassVisitor {

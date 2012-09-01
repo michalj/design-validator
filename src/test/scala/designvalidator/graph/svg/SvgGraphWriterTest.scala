@@ -1,14 +1,15 @@
-package designvalidator.graph
+package designvalidator.graph.svg
 
 import org.scalatest.FeatureSpec
 import org.scalatest.matchers.ShouldMatchers
 import java.io._
+import designvalidator.graph._
 
 class SvgGraphWriterTest extends FeatureSpec with ShouldMatchers {
   feature("SvgGraphWriter generates SVG layout") {
     scenario("1") { pendingUntilFixed {
       val writer = new SvgGraphWriter
-      val out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("target/graph.svg")))
+      val out = new FileOutputStream("target/graph.svg")
       writer.write(Graph("Class Diagram",
         Seq(
           Cluster("Service", "Service", Set(

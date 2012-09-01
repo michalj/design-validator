@@ -1,6 +1,6 @@
-package designvalidator.graph
+package designvalidator.graph.svg
 
-object SvgTemplate {
+private[svg] object SvgTemplate {
   private implicit def int2string(i: Int) = i.toString
 
   def apply(grid: Int, nodeWidth:Int, params: Parameters, routes: Seq[Seq[Position]]) =
