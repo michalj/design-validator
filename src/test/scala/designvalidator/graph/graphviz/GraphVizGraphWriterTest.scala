@@ -5,23 +5,24 @@ import org.scalatest.FeatureSpec
 import designvalidator.graph._
 import java.io.OutputStream
 
-class GraphVizGraphWriterTest extends FeatureSpec with ShouldMatchers {
-  
+class GraphVizGraphWriterTest extends FeatureSpec with ShouldMatchers
+  with PendingHelper {
+
   val writer = GraphVizGraphWriter
-	
+
   feature("GraphVizGraphWriter can generate graph vizualizations") {
     scenario("can generate png") {
-      // given
-      val graph = Graph("sample", Seq(), Set(
-        Verticle("a", "A"), Verticle("b", "B")
-      ), Set(
-        Edge("a", "b", "AtoB")
-      ))
-      val output = new OutputStreamSize
-      // when
-      writer.write(graph, output)
-      // then
-      output.bytesWritten should be > (10)
+      pendingUnlessDotAvailable {
+        // given
+        val graph = Graph("sample", Seq(), Set(
+          Verticle("a", "A"), Verticle("b", "B")), Set(
+          Edge("a", "b", "AtoB")))
+        val output = new OutputStreamSize
+        // when
+        writer.write(graph, output)
+        // then
+        output.bytesWritten should be > (10)
+      }
     }
   }
 }
