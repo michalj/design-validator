@@ -48,7 +48,19 @@
 
         <div class="types members" id="types">
               <h3>Type Members</h3>
-              <ol><li visbl="pub" name="designvalidator.model.ClassModel" data-isabs="false">
+              <ol><li visbl="pub" name="designvalidator.model.AppModel" data-isabs="false">
+      <a id="AppModel:AppModel"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="AppModel.html"><span class="name">AppModel</span></a><span class="params">(<span name="name">name: String</span>, <span name="libraries">libraries: Seq[LibraryModel]</span>)</span><span class="result"> extends ProjectModel with Product with Serializable</span>
+      </span>
+      </h4>
+      
+    </li><li visbl="pub" name="designvalidator.model.ClassModel" data-isabs="false">
       <a id="ClassModel:ClassModel"></a>
       <h4 class="signature">
       <span class="modifier_kind">
@@ -84,6 +96,18 @@
       </span>
       </h4>
       
+    </li><li visbl="pub" name="designvalidator.model.LibraryModel" data-isabs="false">
+      <a id="LibraryModel:LibraryModel"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">case class</span>
+      </span>
+      <span class="symbol">
+        <a href="LibraryModel.html"><span class="name">LibraryModel</span></a><span class="params">(<span name="name">name: String</span>, <span name="classes">classes: Seq[ClassModel]</span>)</span><span class="result"> extends ProjectModel with Product with Serializable</span>
+      </span>
+      </h4>
+      
     </li><li visbl="pub" name="designvalidator.model.MethodDependency" data-isabs="false">
       <a id="MethodDependency:MethodDependency"></a>
       <h4 class="signature">
@@ -108,15 +132,15 @@
       </span>
       </h4>
       
-    </li><li visbl="pub" name="designvalidator.model.ModelExtractor" data-isabs="false">
-      <a id="ModelExtractor:ModelExtractor"></a>
+    </li><li visbl="pub" name="designvalidator.model.ProjectModel" data-isabs="false">
+      <a id="ProjectModel:ProjectModel"></a>
       <h4 class="signature">
       <span class="modifier_kind">
         <span class="modifier"></span>
         <span class="kind">class</span>
       </span>
       <span class="symbol">
-        <a href="ModelExtractor.html"><span class="name">ModelExtractor</span></a><span class="result"> extends AnyRef</span>
+        <a href="ProjectModel.html"><span class="name">ProjectModel</span></a><span class="result"> extends AnyRef</span>
       </span>
       </h4>
       
@@ -125,7 +149,22 @@
 
         
 
-        
+        <div class="values members" id="values">
+              <h3>Value Members</h3>
+              <ol><li visbl="pub" name="designvalidator.model.ModelExtractor" data-isabs="false">
+      <a id="ModelExtractor:ModelExtractor"></a>
+      <h4 class="signature">
+      <span class="modifier_kind">
+        <span class="modifier"></span>
+        <span class="kind">object</span>
+      </span>
+      <span class="symbol">
+        <a href="ModelExtractor$.html"><span class="name">ModelExtractor</span></a><span class="result"> extends (File) ⇒ ProjectModel</span>
+      </span>
+      </h4>
+      
+    </li></ol>
+            </div>
 
         
         </div>
