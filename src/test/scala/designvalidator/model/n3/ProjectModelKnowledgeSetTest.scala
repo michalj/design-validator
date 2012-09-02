@@ -15,9 +15,21 @@ class ProjectModelKnowledgeSetTest extends FeatureSpec with ShouldMatchers {
       val actual = ProjectModelKnowledgeSet(model)
       // then
       actual.triples should contain(Triple(
-        UriNode("java:SomeClass"),
+        UriNode("class:eu.semantiq.SomeClass"),
         UriNode("d:belongsToLibrary"),
         UriNode("lib:mylib.jar"),
+        true))
+    }
+    scenario("Library belongs to App") {
+      // given
+      val model = AppModel("SampleApp.war", Seq(sampleModel))
+      // when
+      val actual = ProjectModelKnowledgeSet(model)
+      // then
+      actual.triples should contain(Triple(
+        UriNode("lib:mylib.jar"),
+        UriNode("d:belongsToApp"),
+        UriNode("app:SampleApp.war"),
         true))
     }
     scenario("Class belongs to a Package") { pending }
