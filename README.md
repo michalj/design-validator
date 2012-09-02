@@ -4,7 +4,9 @@
 
 # Adding dependency
 
-resolvers += "Design-validator on git-hub" at "https://raw.github.com/michalj/design-validator/master/snapshots"
+resolvers += "Design Validator on GitHub" at "https://raw.github.com/michalj/design-validator/master/snapshots"
+
+resolvers += "Semblade on GitHub" at "https://raw.github.com/michalj/semblade-core/master/releases"
 
 libraryDependencies += "eu.semantiq" %% "design-validator" % "0.1-SNAPSHOT"
 
