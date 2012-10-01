@@ -8,6 +8,6 @@ resolvers += "Semblade on GitHub" at "https://raw.github.com/michalj/semblade-co
 
 libraryDependencies += "org.eclipse.jetty.orbit" % "org.objectweb.asm" % "3.3.1.v201105211655" from "http://repo1.maven.org/maven2/org/eclipse/jetty/orbit/org.objectweb.asm/3.3.1.v201105211655/org.objectweb.asm-3.3.1.v201105211655.jar"
 
-libraryDependencies += "eu.semantiq" %% "semblade-core" % "1.0"
+libraryDependencies += "eu.semantiq" %% "semblade-core" % "1.1"
 
 libraryDependencies += "org.scalatest" %% "scalatest" % "1.7.1" % "test"
