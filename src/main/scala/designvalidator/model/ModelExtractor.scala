@@ -19,6 +19,8 @@ object ModelExtractor extends (File => ProjectModel) {
   }
 
   private class ClassModelBuilder extends ClassVisitor {
+    def internalizeClassName(s: String) = s.replace('/', '.')
+    
     var methods = Seq[MethodModel]()
     var fields = Seq[FieldModel]()
     var name = ""
@@ -32,11 +34,10 @@ object ModelExtractor extends (File => ProjectModel) {
       signature: String,
       superName: String,
       interfaces: Array[String]) {
-      this.name = name
+      this.name = internalizeClassName(name)
       this.superName = superName
       this.interfaces = interfaces.toList
-      this.`package` = name.substring(0, name.lastIndexOf("/"))
-        .replace("/", ".")
+      this.`package` = internalizeClassName(name.substring(0, name.lastIndexOf("/")))
     }
     def visitSource(source: String, debug: String) {}
     def visitOuterClass(owner: String, name: String, desc: String) {}
@@ -53,7 +54,7 @@ object ModelExtractor extends (File => ProjectModel) {
       desc: String,
       signature: String,
       value: Object): FieldVisitor = {
-      fields = fields :+ FieldModel(name)
+      fields = fields :+ FieldModel(name, signature)
       null
     }
     def visitMethod(
@@ -65,7 +66,7 @@ object ModelExtractor extends (File => ProjectModel) {
       new MethodModelBuilder(name, exceptions)
     }
     def visitEnd() {}
-    def apply() = ClassModel(name, `package`, methods, fields, superName, interfaces)
+    def apply() = ClassModel(name, `package`, methods, fields, superName, interfaces map internalizeClassName)
 
     private class MethodModelBuilder(name: String, exceptions: Array[String])
       extends MethodVisitor {
@@ -97,12 +98,12 @@ object ModelExtractor extends (File => ProjectModel) {
       def visitFieldInsn(opcode: Int, owner: String, name: String, desc: String) {
         val static = opcode == Opcodes.GETSTATIC || opcode == Opcodes.PUTSTATIC
         val read = opcode == Opcodes.GETSTATIC || opcode == Opcodes.GETFIELD
-        fieldDependencies = fieldDependencies :+ FieldDependency(static, owner,
+        fieldDependencies = fieldDependencies :+ FieldDependency(static, internalizeClassName(owner),
           name, read)
       }
       def visitMethodInsn(opcode: Int, owner: String, name: String, desc: String) {
         methodDependencies = methodDependencies :+ MethodDependency(false,
-          owner, name)
+          internalizeClassName(owner), name)
       }
       def visitJumpInsn(opcode: Int, label: Label) {}
       def visitLabel(label: Label) {}
