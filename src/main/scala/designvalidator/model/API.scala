@@ -20,7 +20,7 @@ case class MethodModel(name: String, args: Seq[String],
   methodDependencies: Seq[MethodDependency],
   creates: Seq[String])
 
-case class FieldModel(name: String, `type`: String)
+case class FieldModel(name: String)
 
 case class FieldDependency(static: Boolean, owner: String, name: String,
   read: Boolean)

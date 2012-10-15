@@ -1,7 +1,6 @@
 .project
 .classpath
 .cache
-.worksheet
 target
 graph.dot
 graph.dot.*
