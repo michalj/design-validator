@@ -4,6 +4,7 @@ import org.scalatest.FeatureSpec
 import org.scalatest.matchers.ShouldMatchers
 import designvalidator.model._
 import eu.semantiq.semblade._
+import DesignImplicits._
 
 class ProjectModelKnowledgeSetTest extends FeatureSpec with ShouldMatchers {
 
@@ -16,7 +17,7 @@ class ProjectModelKnowledgeSetTest extends FeatureSpec with ShouldMatchers {
       // then
       actual.triples should contain(Triple(
         UriNode("class:eu.semantiq.SomeClass"),
-        UriNode("d:belongsToLibrary"),
+        "d:belongsToLibrary",
         UriNode("lib:mylib.jar"),
         true))
     }
@@ -41,5 +42,5 @@ class ProjectModelKnowledgeSetTest extends FeatureSpec with ShouldMatchers {
 
   def sampleModel = new LibraryModel(
     "mylib.jar",
-    Seq(ClassModel("SomeClass", "eu.semantiq", Seq(), Seq(), "SuperClass", Seq())))
+    Seq(ClassModel("eu.semantiq.SomeClass", "eu.semantiq", Seq(), Seq(), "SuperClass", Seq())))
 }
