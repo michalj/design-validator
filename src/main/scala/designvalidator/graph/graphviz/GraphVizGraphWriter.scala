@@ -23,7 +23,8 @@ object GraphVizGraphWriter extends IGraphWriter {
     }
     out.write("}")
     out.close()
-    Seq("dot", "-Tpng") #< input(out.toString()) #> output !;
+    // TODO: make layout configurable
+    Seq("sfdp", "-Tpng", "-Goverlap=prism") #< input(out.toString()) #> output !;
     output.flush()
   }
 
