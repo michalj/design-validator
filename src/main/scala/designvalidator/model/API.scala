@@ -1,8 +1,12 @@
 package designvalidator.model
 
-class ProjectModel(name: String)
+abstract class ProjectModel(name: String) {
+	def classes: Seq[ClassModel]
+}
 
-case class AppModel(name: String, libraries: Seq[LibraryModel]) extends ProjectModel(name)
+case class AppModel(name: String, libraries: Seq[LibraryModel]) extends ProjectModel(name) {
+	def classes = libraries.flatMap(_.classes)
+}
 
 case class LibraryModel(name: String, classes: Seq[ClassModel]) extends ProjectModel(name)
 

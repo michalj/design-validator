@@ -4,8 +4,8 @@ import designvalidator.model._
 import designvalidator.graph.svg.SvgTemplate
 
 class MethodDependenciesVisualizer(filter: ClassModel => Boolean) extends IVisualizer {
-  def apply(model: Seq[ClassModel]): Graph = {
-    val base = model.filter(filter)
+  def apply(model: ProjectModel): Graph = {
+    val base = model.classes.filter(filter)
     val classes = base.map(c => c.name).toSet
     val allVerticles = base.flatMap(c => {
       Seq(c.name) ++

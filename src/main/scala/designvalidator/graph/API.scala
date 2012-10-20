@@ -1,7 +1,7 @@
 package designvalidator.graph
 
 import java.io.OutputStream
-import designvalidator.model.ClassModel
+import designvalidator.model.ProjectModel
 
 case class Graph(name: String, clusters: Seq[Cluster],
   verticles: Set[Verticle], edges: Set[Edge])
@@ -11,7 +11,7 @@ case class Verticle(id: String, label: String,
   color: String = "black", bgcolor: String = "white")
 case class Edge(fromId: String, toId: String, label: String)
 
-trait IVisualizer extends (Seq[ClassModel] => Graph)
+trait IVisualizer extends (ProjectModel => Graph)
 
 trait IGraphWriter {
   def write(graph: Graph, out: OutputStream)
