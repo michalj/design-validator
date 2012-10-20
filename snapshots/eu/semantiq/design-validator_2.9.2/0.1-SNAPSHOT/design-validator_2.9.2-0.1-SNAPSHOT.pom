@@ -24,10 +24,24 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
+            <groupId>eu.semantiq</groupId>
+            <artifactId>semblade-core_2.9.2</artifactId>
+            <version>1.1</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>org.scalatest</groupId>
             <artifactId>scalatest_2.9.2</artifactId>
             <version>1.7.1</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
+    <repositories>
+        <repository>
+            <id>SembladeonGitHub</id>
+            <name>Semblade on GitHub</name>
+            <url>https://raw.github.com/michalj/semblade-core/master/releases/</url>
+            <layout>default</layout>
+        </repository>
+    </repositories>
 </project>
