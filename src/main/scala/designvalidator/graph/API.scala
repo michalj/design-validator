@@ -3,6 +3,7 @@ package designvalidator.graph
 import java.io.OutputStream
 import designvalidator.model.ProjectModel
 
+// TODO: clusters should be a Set[Cluster]?
 case class Graph(name: String, clusters: Seq[Cluster],
   verticles: Set[Verticle], edges: Set[Edge])
 case class Cluster(id: String, label: String,
